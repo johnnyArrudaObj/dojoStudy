@@ -9,7 +9,6 @@ use Architecture\Domain\ValueObjects\Email;
 
 final class Person
 {
-
     public static function buildPerson(string $cpf, string $name, string $email): self
     {
         return new Person(new Cpf($cpf), $name, new Email($email));
@@ -19,7 +18,8 @@ final class Person
         private Cpf $cpf,
         private string $name,
         private Email $email
-    ) {}
+    ) {
+    }
 
     /**
      * @return string

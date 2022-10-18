@@ -10,5 +10,6 @@ class CreatePersonDto
         public string $cpf,
         public string $name,
         public string $email
-    ) {}
+    ) {
+    }
 }

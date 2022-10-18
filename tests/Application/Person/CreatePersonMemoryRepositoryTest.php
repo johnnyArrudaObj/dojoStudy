@@ -8,7 +8,7 @@ use Architecture\Domain\Person\CreatePerson;
 use Architecture\Domain\Person\CreatePersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
 use Architecture\Domain\Person\PersonNotFound;
-use Architecture\Infrastructure\Repository\RepositoryMemory;
+use Architecture\Infrastructure\Repository\PersonRepositoryMemory;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ class CreatePersonMemoryRepositoryTest extends TestCase
     {
         $personData = new CreatePersonDto($cpf = '583.455.390-76', $name = 'Johnny Memory', $email = 'johnMemory@email.com.br');
 
-        $repositoryMemory = new RepositoryMemory();
+        $repositoryMemory = new PersonRepositoryMemory();
         $factoryPerson = new CreatePerson($repositoryMemory);
 
         $factoryPerson->create($personData);
@@ -42,7 +42,7 @@ class CreatePersonMemoryRepositoryTest extends TestCase
         $this->expectException(PersonNotFound::class);
         $this->expectExceptionMessage("Person with this $cpf not found");
 
-        $repositoryMemory = new RepositoryMemory();
+        $repositoryMemory = new PersonRepositoryMemory();
         $repositoryMemory->searchByCpf(new Cpf($cpf));
     }
 }

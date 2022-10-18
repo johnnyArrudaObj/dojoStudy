@@ -10,3 +10,5 @@ vendor/*
 composer.lock
 .phpunit.result.cache
 dataBase.sqlite
+.php-cs-fixer.cache
+dataBase

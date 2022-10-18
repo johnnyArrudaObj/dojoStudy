@@ -1,0 +1,29 @@
+name: php-cs-sniffer
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Composer Downloads
+        uses: actions/cache@v2
+        with:
+          path: vendor/
+          key: ${{ runner.OS }}-composer-${{ hashFiles('**/composer.lock') }}
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+
+      - name: Installing dependencies (づ￣ ³￣)づ ....
+        run: composer install
+
+      - name: Dumping autoload (︶｡︶✽) ....
+        run: composer dumpautoload -o
+
+      - name: Start sniffer php ¯\_(ツ)_/¯ ....
+        run: ./vendor/bin/php-cs-fixer fix src
