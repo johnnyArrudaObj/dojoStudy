@@ -8,23 +8,23 @@ class Cpf
 {
     private string $cpf;
 
-    public function __construct(string $number)
+    public function __construct(string $value)
     {
-        $this->setCpf($number);
+        $this->setCpf($value);
     }
 
-    private function setCpf(string $number): void
+    private function setCpf(string $value): void
     {
         $optionsRegex = [
             'options' => [
                 'regexp' => '/\d{3}\.\d{3}\.\d{3}\-\d{2}/'
             ]
         ];
-        if (filter_var($number, FILTER_VALIDATE_REGEXP, $optionsRegex) === false) {
+        if (filter_var($value, FILTER_VALIDATE_REGEXP, $optionsRegex) === false) {
             throw new \InvalidArgumentException('CPF not valid');
         }
 
-        $this->cpf = $number;
+        $this->cpf = $value;
     }
 
     public function __toString(): string

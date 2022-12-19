@@ -7,7 +7,7 @@ require_once '../vendor/autoload.php';
 use Architecture\Domain\Person\CreatePerson;
 use Architecture\Domain\Person\CreatePersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
-use Architecture\Infrastructure\Repository\RepositoryPDO;
+use Architecture\Infrastructure\Repository\PersonRepositoryPDO;
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -16,9 +16,10 @@ $personData = new CreatePersonDto($data['cpf'], $data['name'], $data['email']);
 $container = require_once '../config/container.php';
 
 $factoryPerson = $container->get(CreatePerson::class);
-$factoryPerson->create($personData);
+$repositoryPDO = $container->get(PersonRepositoryPDO::class);
 
-$repositoryPDO = $container->get(RepositoryPDO::class);
 $personAdded = $repositoryPDO->searchByCpf(new Cpf($data['cpf']));
+
+$factoryPerson->create($personData);
 
 echo json_encode($personAdded);

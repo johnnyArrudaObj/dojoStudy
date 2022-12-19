@@ -8,7 +8,7 @@ use Architecture\Domain\Person\CreatePerson;
 use Architecture\Domain\Person\CreatePersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
 use Architecture\Infrastructure\Persistence\ConnectionCreator;
-use Architecture\Infrastructure\Repository\RepositoryPDO;
+use Architecture\Infrastructure\Repository\PersonRepositoryPDO;
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -17,7 +17,7 @@ $pdo = ConnectionCreator::createConnection();
 //SAVE PERSON
 $personData = new CreatePersonDto($data['cpf'], $data['name'], $data['email']);
 
-$repositoryPDO = new RepositoryPDO($pdo);
+$repositoryPDO = new PersonRepositoryPDO($pdo);
 $factoryPerson = new CreatePerson($repositoryPDO);
 
 try {

@@ -7,7 +7,7 @@ namespace Application\Person;
 use Architecture\Domain\Person\CreatePerson;
 use Architecture\Domain\Person\CreatePersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
-use Architecture\Infrastructure\Repository\RepositoryPDO;
+use Architecture\Infrastructure\Repository\PersonRepositoryPDO;
 use Exception;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +41,7 @@ class CreatePersonSqliteRepositoryTest extends TestCase
     {
         $personData = new CreatePersonDto($cpf = '306.673.290-80', $name = 'Johnny PDO', $email = 'johnPDO@email.com.br');
 
-        $repositoryMemory = new RepositoryPDO(self::$pdo);
+        $repositoryMemory = new PersonRepositoryPDO(self::$pdo);
         $factoryPerson = new CreatePerson($repositoryMemory);
 
         $factoryPerson->create($personData);
