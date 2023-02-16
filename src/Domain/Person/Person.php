@@ -14,12 +14,7 @@ final class Person
         return new Person(new Cpf($cpf), $name, new Email($email));
     }
 
-    private function __construct(
-        private Cpf $cpf,
-        private string $name,
-        private Email $email
-    ) {
-    }
+    private function __construct(private Cpf $cpf, private string $name, private Email $email) {}
 
     /**
      * @return string

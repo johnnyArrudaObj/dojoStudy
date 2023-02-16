@@ -4,22 +4,30 @@ declare(strict_types=1);
 
 require_once '../vendor/autoload.php';
 
-use Architecture\Domain\Person\CreatePerson;
-use Architecture\Domain\Person\CreatePersonDto;
+use Architecture\Domain\Person\CreatePersonCommand;
+use Architecture\Domain\Person\PersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
 use Architecture\Infrastructure\Repository\PersonRepositoryPDO;
 
-$data = json_decode(file_get_contents("php://input"), true);
+try {
+    $data = json_decode(file_get_contents("php://input"), true, 512, JSON_THROW_ON_ERROR);
+} catch (JsonException $e) {
+    var_dump($e->getMessage());
+}
 
-$personData = new CreatePersonDto($data['cpf'], $data['name'], $data['email']);
+$personData = new PersonDto($data['cpf'], $data['name'], $data['email']);
 
-$container = require_once '../config/container.php';
+$container = require '../config/container.php';
 
-$factoryPerson = $container->get(CreatePerson::class);
+$factoryPerson = $container->get(CreatePersonCommand::class);
 $repositoryPDO = $container->get(PersonRepositoryPDO::class);
 
-$personAdded = $repositoryPDO->searchByCpf(new Cpf($data['cpf']));
+if (!$personAdded = $repositoryPDO->searchByCpf(new Cpf($data['cpf']))) {
+    $personAdded = $factoryPerson->create($personData);
+};
 
-$factoryPerson->create($personData);
-
-echo json_encode($personAdded);
+try {
+    echo json_encode($personAdded, JSON_THROW_ON_ERROR);
+} catch (JsonException $e) {
+    var_dump($e->getMessage());
+}

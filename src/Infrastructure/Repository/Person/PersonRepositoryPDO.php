@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Architecture\Infrastructure\Repository;
+namespace Architecture\Infrastructure\Repository\Person;
 
 use Architecture\Domain\ValueObjects\Cpf;
 use Architecture\Domain\Person\Person;
@@ -62,13 +62,23 @@ class PersonRepositoryPDO implements PersonRepository
 
     public function getAll(): array
     {
-        $stmt = $this->connection->prepare(
+        $stmt = $this->connection->query(
             'SELECT cpf, name, email FROM persons;'
         );
-        $stmt->execute();
 
         return $this->servicePerson->mapPersons(
             $stmt->fetchAll(\PDO::FETCH_ASSOC)
         );
+    }
+
+    public function deleteByCpf(Cpf $cpf): void
+    {
+        $stmt = $this->connection->prepare(
+            'DELETE FROM persons WHERE persons.cpf = ?;'
+        );
+
+        $stmt->bindValue(1, $cpf);
+
+        $stmt->execute();
     }
 }

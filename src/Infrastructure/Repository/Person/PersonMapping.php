@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Architecture\Infrastructure\Repository;
+namespace Architecture\Infrastructure\Repository\Person;
 
 use Architecture\Domain\Person\Person;
 use Architecture\Domain\Person\PersonNotFound;
@@ -34,7 +34,7 @@ class PersonMapping
      */
     public function mapPerson(array $listOfPerson, Cpf $cpf): Person
     {
-        if (count($listOfPerson) == 0) {
+        if (count($listOfPerson) === 0) {
             throw new PersonNotFound($cpf);
         }
 

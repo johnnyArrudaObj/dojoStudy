@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Person;
 
-use Architecture\Domain\Person\CreatePerson;
-use Architecture\Domain\Person\CreatePersonDto;
+use Architecture\Domain\Person\CreatePersonCommand;
+use Architecture\Domain\Person\PersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
 use Architecture\Domain\Person\PersonNotFound;
 use Architecture\Infrastructure\Repository\PersonRepositoryMemory;
@@ -20,10 +20,10 @@ class CreatePersonMemoryRepositoryTest extends TestCase
      */
     public function test_ShouldCreatePerson_WithMemoryRepository(): void
     {
-        $personData = new CreatePersonDto($cpf = '583.455.390-76', $name = 'Johnny Memory', $email = 'johnMemory@email.com.br');
+        $personData = new PersonDto($cpf = '583.455.390-76', $name = 'Johnny Memory', $email = 'johnMemory@email.com.br');
 
         $repositoryMemory = new PersonRepositoryMemory();
-        $factoryPerson = new CreatePerson($repositoryMemory);
+        $factoryPerson = new CreatePersonCommand($repositoryMemory);
 
         $factoryPerson->create($personData);
         $person = $repositoryMemory->searchByCpf(new Cpf($cpf));

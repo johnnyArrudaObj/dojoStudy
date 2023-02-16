@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Architecture\Infrastructure\Repository;
+namespace Architecture\Infrastructure\Repository\Person;
 
 use Architecture\Domain\Person\PersonNotFound;
 use Architecture\Domain\ValueObjects\Cpf;
@@ -59,5 +59,10 @@ class PersonRepositoryMemory implements PersonRepository
     public function getAll(): array
     {
         return $this->persons;
+    }
+
+    public function deleteByCpf(Cpf $cpf): void
+    {
+        // TODO: Implement deleteByCpf() method.
     }
 }

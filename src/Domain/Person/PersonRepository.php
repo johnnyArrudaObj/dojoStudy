@@ -10,6 +10,7 @@ interface PersonRepository
 {
     public function add(Person $person): void;
     public function searchByCpf(Cpf $cpf): Person;
+    public function deleteByCpf(Cpf $cpf): void;
     public function updateByCpf(Cpf $cpf, Person $person): void;
     /** @return Person[] */
     public function getAll(): array;

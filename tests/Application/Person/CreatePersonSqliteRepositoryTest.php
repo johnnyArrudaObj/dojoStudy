@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Application\Person;
 
-use Architecture\Domain\Person\CreatePerson;
-use Architecture\Domain\Person\CreatePersonDto;
+use Architecture\Domain\Person\CreatePersonCommand;
+use Architecture\Domain\Person\PersonDto;
 use Architecture\Domain\ValueObjects\Cpf;
 use Architecture\Infrastructure\Repository\PersonRepositoryPDO;
 use Exception;
@@ -39,10 +39,10 @@ class CreatePersonSqliteRepositoryTest extends TestCase
      */
     public function test_ShouldCreatePerson_WithSqliteRepository(): void
     {
-        $personData = new CreatePersonDto($cpf = '306.673.290-80', $name = 'Johnny PDO', $email = 'johnPDO@email.com.br');
+        $personData = new PersonDto($cpf = '306.673.290-80', $name = 'Johnny PDO', $email = 'johnPDO@email.com.br');
 
         $repositoryMemory = new PersonRepositoryPDO(self::$pdo);
-        $factoryPerson = new CreatePerson($repositoryMemory);
+        $factoryPerson = new CreatePersonCommand($repositoryMemory);
 
         $factoryPerson->create($personData);
         $person = $repositoryMemory->searchByCpf(new Cpf($cpf));
